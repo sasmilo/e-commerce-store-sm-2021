@@ -6,10 +6,9 @@ export default function About() {
     <Layout>
       <Head>
         <title>About</title>
-
       </Head>
-      <div>About page</div>
-
+      <h1>About us</h1>
+      <p>This store is as cool as it gets!</p>
     </Layout>
   );
 }
