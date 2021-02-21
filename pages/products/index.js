@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Link from 'next/link';
 import Layout from '../../components/Layout';
 
 export default function Products(props) {
@@ -7,12 +8,17 @@ export default function Products(props) {
       <Head>
         <title>Products</title>
       </Head>
-      <h1>Our Products by Categories</h1>
+      <h1>Perfect hat for every occasion!</h1>
       <ul>
         {props.products.map((product) => (
           <li key={`product-${product.id}`}>
-            {product.category}
-            {/* {product.productName} */}
+            <Link href={`/products/${product.id}`}>
+              <a>
+                {/* {product.category} */}
+                {'  '}
+                {product.productName}
+              </a>
+            </Link>
           </li>
         ))}
       </ul>
@@ -23,7 +29,7 @@ export default function Products(props) {
 export async function getServerSideProps() {
   const { getProductInformation } = await import('../../database');
 
-  const products = getProductInformation();
+  const products = await getProductInformation();
   return {
     props: {
       products: products,

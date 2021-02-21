@@ -8,14 +8,14 @@ export default function Home() {
       <Head>
         <title>Home</title>
       </Head>
-      <h1>Home page</h1>
+      <h1>HatterMatter</h1>
       <Image
         src="/online-store.jpg"
         alt="Store icon"
         width={328}
         height={246}
       />
-      <p>This is the home page of my awesome e-store!</p>
+      <p>Here you can find the hat for every head!</p>
     </Layout>
   );
 }
