@@ -27,7 +27,7 @@ export default function Products(props) {
 }
 
 export async function getServerSideProps() {
-  const { getProductInformation } = await import('../../database');
+  const { getProductInformation } = await import('../../util/database');
 
   const products = await getProductInformation();
   return {

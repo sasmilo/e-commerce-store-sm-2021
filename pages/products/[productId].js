@@ -1,7 +1,15 @@
 import Head from 'next/head';
+import { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
+import { addProductToCart, setCartCookieClientSide } from '../../util/cookies';
 
 export default function SingleProduct(props) {
+  const [cart, setCart] = useState(props.cartCookieValue);
+
+  useEffect(() => {
+    setCartCookieClientSide(cart);
+  }, [cart]);
+
   if (!props.product) {
     return (
       <Layout>
@@ -25,8 +33,16 @@ export default function SingleProduct(props) {
       <h2>Category: {props.product.category}</h2>
       <p>Tags: {props.product.productTags}</p>
       <h2>Product name: {props.product.productName}</h2>
-      <p>Price: {props.product.productPrice}</p>
+      <p>Price: {props.product.productPrice} €</p>
       <p>On stock: {props.product.productStock}</p>
+      <button
+        onClick={() => {
+          const newCart = addProductToCart(cart, props.product.id);
+          setCart(newCart);
+        }}
+      >
+        Add to cart
+      </button>
     </Layout>
   );
 }
@@ -34,7 +50,7 @@ export default function SingleProduct(props) {
 export async function getServerSideProps(context) {
   // console.log('c', context);
 
-  const { getProductInformation } = await import('../../database');
+  const { getProductInformation } = await import('../../util/database');
 
   const id = Number(context.query.productId);
   // console.log('query', context.query);
@@ -45,10 +61,13 @@ export async function getServerSideProps(context) {
   if (!product) {
     context.res.statusCode = 404;
   }
+  const cart = context.req.cookies.cart;
+  const cartCookieValue = cart ? JSON.parse(cart) : [];
 
   return {
     props: {
       product: product || null,
+      cartCookieValue: cartCookieValue,
     },
   };
 }
