@@ -1,7 +1,11 @@
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
-import { addProductToCart, setCartCookieClientSide } from '../../util/cookies';
+import {
+  addProductToCart,
+  removeProductFromCart,
+  setCartCookieClientSide,
+} from '../../util/cookies';
 
 export default function SingleProduct(props) {
   const [cart, setCart] = useState(props.cartCookieValue);
@@ -22,6 +26,10 @@ export default function SingleProduct(props) {
     );
   }
 
+  const quantityInTheCart = cart.find(
+    (quantity) => quantity.productId === props.product.id,
+  );
+
   return (
     <Layout>
       <Head>
@@ -35,6 +43,8 @@ export default function SingleProduct(props) {
       <h2>Product name: {props.product.productName}</h2>
       <p>Price: {props.product.productPrice} €</p>
       <p>On stock: {props.product.productStock}</p>
+
+      <div>Number of items in the cart: {quantityInTheCart?.quantity || 0}</div>
       <button
         onClick={() => {
           const newCart = addProductToCart(cart, props.product.id);
@@ -42,6 +52,14 @@ export default function SingleProduct(props) {
         }}
       >
         Add to cart
+      </button>
+      <button
+        onClick={() => {
+          const newCart = removeProductFromCart(cart, props.product.id);
+          setCart(newCart);
+        }}
+      >
+        Remove from cart
       </button>
     </Layout>
   );
