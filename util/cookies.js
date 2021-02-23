@@ -4,7 +4,12 @@ export function setCartCookieClientSide(newCart) {
   Cookies.set('cart', newCart);
 }
 
-export function addProductToCart(cartCookieValue, productId) {
+export function addProductToCart(
+  cartCookieValue,
+  productId,
+  productName,
+  productPrice,
+) {
   const idInArray = cartCookieValue.some(
     (productAdded) => productAdded.productId === productId,
   );
@@ -13,6 +18,8 @@ export function addProductToCart(cartCookieValue, productId) {
       ...cartCookieValue,
       {
         productId: productId,
+        productName: productName,
+        productPrice: productPrice,
         quantity: 1,
       },
     ];
@@ -30,9 +37,7 @@ export function removeProductFromCart(cartCookieValue, productId) {
   const idInArray = cartCookieValue.find(
     (productAdded) => productAdded.productId === productId,
   );
-  console.log(idInArray);
-  console.log(productId);
-  console.log(cartCookieValue.filter((item) => item.productId !== productId));
+
   if (idInArray.quantity === 1) {
     return cartCookieValue.filter((item) => item.productId !== productId);
   }

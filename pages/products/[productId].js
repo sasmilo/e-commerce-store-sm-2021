@@ -47,7 +47,12 @@ export default function SingleProduct(props) {
       <div>Number of items in the cart: {quantityInTheCart?.quantity || 0}</div>
       <button
         onClick={() => {
-          const newCart = addProductToCart(cart, props.product.id);
+          const newCart = addProductToCart(
+            cart,
+            props.product.id,
+            props.product.productName,
+            props.product.productPrice,
+          );
           setCart(newCart);
         }}
       >

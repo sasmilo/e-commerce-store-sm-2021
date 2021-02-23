@@ -1,38 +1,85 @@
 import Head from 'next/head';
-import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
+import { addProductToCart, removeProductFromCart } from '../util/cookies';
 
-export default function Cart(props) {
+export default function ShoppingCart(props) {
+  const [cart, setCart] = useState(props.cartCookieValue);
+
+  useEffect(() => {
+    setCartCookieClientSide(cart);
+  }, [cart]);
+
+  if (!props.product) {
+    return (
+      <Layout>
+        <Head>
+          <title>Product not found</title>
+        </Head>
+        <h1>Product not found</h1>
+        <p>Would you be interested in some of our other cool hats?</p>
+      </Layout>
+    );
+  }
+
+  const quantityInTheCart = cart.find(
+    (quantity) => quantity.productId === props.product.id,
+  );
+
   return (
     <Layout>
       <Head>
-        <title>Cart</title>
+        <title>Single Product</title>
       </Head>
-      <h1>Shopping cart</h1>
-      <ul>
-        {props.products.map((product) => (
-          <li key={`product-${product.id}`}>
-            <Link href={`/products/${product.id}`}>
-              <a>
-                {/* {product.category} */}
-                {'  '}
-                {product.productName}
-              </a>
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <h1>Single product page</h1>
+
+      <p>id: {cart.productId}</p>
+      <h2>Product name: {props.product.productName}</h2>
+      <p>Price: {props.product.productPrice} €</p>
+      <p>On stock: {props.product.productStock}</p>
+
+      <div>Number of items in the cart: {quantityInTheCart?.quantity || 0}</div>
+      <button
+        onClick={() => {
+          const newCart = addProductToCart(cart, props.product.id);
+          setCart(newCart);
+        }}
+      >
+        Add to cart
+      </button>
+      <button
+        onClick={() => {
+          const newCart = removeProductFromCart(cart, props.product.id);
+          setCart(newCart);
+        }}
+      >
+        Remove from cart
+      </button>
     </Layout>
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+  // console.log('c', context);
+
   const { getProductInformation } = await import('../../util/database');
 
-  const products = await getProductInformation();
+  const id = Number(context.query.productId);
+  // console.log('query', context.query);
+
+  const products = await getProductInformation(id);
+  const product = products.find((product) => product.id === id);
+
+  if (!product) {
+    context.res.statusCode = 404;
+  }
+  const cart = context.req.cookies.cart;
+  const cartCookieValue = cart ? JSON.parse(cart) : [];
+
   return {
     props: {
-      products: products,
+      product: product || null,
+      cartCookieValue: cartCookieValue,
     },
   };
 }
