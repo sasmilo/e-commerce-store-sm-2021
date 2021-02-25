@@ -14,7 +14,8 @@ export default function Products(props) {
           <li key={`product-${product.id}`}>
             <Link href={`/products/${product.id}`}>
               <a>
-                {/* {product.category} */}
+                {/* {product.productImage} */}
+                {product.category}
                 {'  '}
                 {product.productName}
               </a>

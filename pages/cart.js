@@ -1,85 +1,96 @@
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import Layout from '../components/Layout';
-import { addProductToCart, removeProductFromCart } from '../util/cookies';
+import { getProductInformation } from '../util/database.js';
 
 export default function ShoppingCart(props) {
-  const [cart, setCart] = useState(props.cartCookieValue);
+  const cart = props.finalShoppingCart;
+  // const [cart, setCart] = useState(props.cartCookieObject);
+  // const products = props.products;
 
-  useEffect(() => {
-    setCartCookieClientSide(cart);
-  }, [cart]);
-
-  if (!props.product) {
-    return (
-      <Layout>
-        <Head>
-          <title>Product not found</title>
-        </Head>
-        <h1>Product not found</h1>
-        <p>Would you be interested in some of our other cool hats?</p>
-      </Layout>
-    );
-  }
-
-  const quantityInTheCart = cart.find(
-    (quantity) => quantity.productId === props.product.id,
-  );
+  // if (cart === []) {
+  //   return (
+  //     <Layout>
+  //       <Head>
+  //         <title>The cart is empty</title>
+  //       </Head>
+  //       <h1>Your cart is empty!</h1>
+  //       <p>Would you be interested in some of our cool hats?</p>
+  //     </Layout>
+  //   );
+  // }
 
   return (
     <Layout>
       <Head>
-        <title>Single Product</title>
+        <title>Cart</title>
       </Head>
-      <h1>Single product page</h1>
+      <div>
+        <div>
+          <div>
+            <h1>Your Shopping Cart</h1>
+          </div>
 
-      <p>id: {cart.productId}</p>
-      <h2>Product name: {props.product.productName}</h2>
-      <p>Price: {props.product.productPrice} €</p>
-      <p>On stock: {props.product.productStock}</p>
+          <ul>
+            {props.finalShoppingCart.map((object) => (
+              <li key={object.id}>
+                {'  '}
+                {object.productId}
+                {'  '}
+                {object.productImage}
+                {'  '}
+                {object.productName}
+                {'  '}
+                {object.productPrice}
+                {'  '}
+                {object.quantity}
+              </li>
+            ))}
+          </ul>
 
-      <div>Number of items in the cart: {quantityInTheCart?.quantity || 0}</div>
-      <button
-        onClick={() => {
-          const newCart = addProductToCart(cart, props.product.id);
-          setCart(newCart);
-        }}
-      >
-        Add to cart
-      </button>
-      <button
-        onClick={() => {
-          const newCart = removeProductFromCart(cart, props.product.id);
-          setCart(newCart);
-        }}
-      >
-        Remove from cart
-      </button>
+          {/* <CartFunction products={products} cart={cart} setCart={setCart} /> */}
+          <Link href="/checkout">
+            <a data-cy="checkout-button">Go to checkout</a>
+          </Link>
+        </div>
+      </div>
     </Layout>
   );
 }
 
 export async function getServerSideProps(context) {
-  // console.log('c', context);
+  // const { getProductInformation } = await import('../util/database');
+  // const products = await getProductInformation();
+  // const cartCookie = Cookies.get('cart');
 
-  const { getProductInformation } = await import('../../util/database');
+  //   const cartCookieObject = Cookies.getJSON('cart');
 
-  const id = Number(context.query.productId);
+  const cart = context.req.cookies.cart;
+  const cartCookieObject = cart ? JSON.parse(cart) : [];
+
+  // console.log(cartCookieObject);
+
+  // const id = Number(context.query.productId);
   // console.log('query', context.query);
 
-  const products = await getProductInformation(id);
-  const product = products.find((product) => product.id === id);
+  const products = await getProductInformation();
 
-  if (!product) {
-    context.res.statusCode = 404;
-  }
-  const cart = context.req.cookies.cart;
-  const cartCookieValue = cart ? JSON.parse(cart) : [];
+  // console.log(products);
+
+  const finalShoppingCart = cartCookieObject.map((cookieProduct) => {
+    return {
+      ...products.find((product) => cookieProduct.id === product.id),
+      quantity: cookieProduct.quantity,
+    };
+  });
+  // const finalShoppingCart = merge(products, cartCookieObject, 'id');
+  console.log(finalShoppingCart);
 
   return {
     props: {
-      product: product || null,
-      cartCookieValue: cartCookieValue,
+      cartCookieObject: cartCookieObject,
+      products: products,
+      finalShoppingCart: finalShoppingCart,
     },
   };
 }

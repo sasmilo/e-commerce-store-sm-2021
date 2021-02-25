@@ -27,7 +27,7 @@ export default function SingleProduct(props) {
   }
 
   const quantityInTheCart = cart.find(
-    (quantity) => quantity.productId === props.product.id,
+    (quantity) => quantity.id === props.product.id,
   );
 
   return (
@@ -73,13 +73,12 @@ export default function SingleProduct(props) {
 export async function getServerSideProps(context) {
   // console.log('c', context);
 
-  const { getProductInformation } = await import('../../util/database');
+  const { getProductById } = await import('../../util/database');
 
   const id = Number(context.query.productId);
   // console.log('query', context.query);
 
-  const products = await getProductInformation(id);
-  const product = products.find((product) => product.id === id);
+  const product = await getProductById(id);
 
   if (!product) {
     context.res.statusCode = 404;

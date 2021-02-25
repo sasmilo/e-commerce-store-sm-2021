@@ -4,48 +4,79 @@ export function setCartCookieClientSide(newCart) {
   Cookies.set('cart', newCart);
 }
 
+export function getCartFromCookie() {
+  const cart = Cookies.getJSON('cart') || [];
+  return cart;
+}
+
 export function addProductToCart(
   cartCookieValue,
-  productId,
+  id,
   productName,
   productPrice,
+  productImage,
 ) {
   const idInArray = cartCookieValue.some(
-    (productAdded) => productAdded.productId === productId,
+    (productAdded) => productAdded.id === id,
   );
   if (!idInArray) {
     return [
       ...cartCookieValue,
       {
-        productId: productId,
+        id: id,
         productName: productName,
         productPrice: productPrice,
+        productImage: productImage,
         quantity: 1,
       },
     ];
   }
 
   return cartCookieValue.map((productAdded) => {
-    if (productId === productAdded.productId) {
+    if (id === productAdded.id) {
       productAdded.quantity = productAdded.quantity + 1;
     }
     return productAdded;
   });
 }
 
-export function removeProductFromCart(cartCookieValue, productId) {
+export function removeProductFromCart(cartCookieValue, id) {
   const idInArray = cartCookieValue.find(
-    (productAdded) => productAdded.productId === productId,
+    (productAdded) => productAdded.id === id,
   );
 
   if (idInArray.quantity === 1) {
-    return cartCookieValue.filter((item) => item.productId !== productId);
+    return cartCookieValue.filter((item) => item.id !== id);
   }
 
   return cartCookieValue.map((productAdded) => {
-    if (productId === productAdded.productId) {
+    if (id === productAdded.id) {
       productAdded.quantity = productAdded.quantity - 1;
     }
     return productAdded;
   });
+}
+
+export function deleteAllProductsFromCookieCart() {
+  const deleteCookie = Cookies.remove('cart');
+
+  return deleteCookie;
+}
+
+export function sumOfProductsInCart() {
+  const cart = getCartFromCookie();
+
+  const findCartValues = cart.map((item) => item.count);
+
+  const reducer = (accumulator, currentValue) =>
+    parseInt(accumulator) + parseInt(currentValue);
+
+  function calcSumOfProducts() {
+    if (cart.length > 0) {
+      return findCartValues.reduce(reducer);
+    } else {
+      return 0;
+    }
+  }
+  return calcSumOfProducts();
 }
