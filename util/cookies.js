@@ -12,9 +12,6 @@ export function getCartFromCookie() {
 export function addProductToCart(
   cartCookieValue,
   id,
-  productName,
-  productPrice,
-  productImage,
 ) {
   const idInArray = cartCookieValue.some(
     (productAdded) => productAdded.id === id,
@@ -24,9 +21,6 @@ export function addProductToCart(
       ...cartCookieValue,
       {
         id: id,
-        productName: productName,
-        productPrice: productPrice,
-        productImage: productImage,
         quantity: 1,
       },
     ];

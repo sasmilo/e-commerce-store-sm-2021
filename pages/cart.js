@@ -83,8 +83,8 @@ export async function getServerSideProps(context) {
       quantity: cookieProduct.quantity,
     };
   });
-  // const finalShoppingCart = merge(products, cartCookieObject, 'id');
-  console.log(finalShoppingCart);
+
+  // console.log(finalShoppingCart);
 
   return {
     props: {
