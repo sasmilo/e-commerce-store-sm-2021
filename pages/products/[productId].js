@@ -1,4 +1,6 @@
 import Head from 'next/head';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
 import {
@@ -22,6 +24,9 @@ export default function SingleProduct(props) {
         </Head>
         <h1>Product not found</h1>
         <p>Would you be interested in some of our other cool hats?</p>
+        <Link href="/">
+          <a>Check them out!</a>
+        </Link>
       </Layout>
     );
   }
@@ -35,15 +40,36 @@ export default function SingleProduct(props) {
       <Head>
         <title>Single Product</title>
       </Head>
-      <h1>Single product page</h1>
-
-      <h2>id: {props.product.id}</h2>
-      <h2>Category: {props.product.category}</h2>
-      <p>Tags: {props.product.productTags}</p>
-      <h2>Product name: {props.product.productName}</h2>
+      <h1>{props.product.productName}</h1>
+      <Image
+        src={`/${props.product.productImage}`}
+        alt="Hat"
+        width={200}
+        height={200}
+      />
       <p>Price: {props.product.productPrice} €</p>
-      <p>On stock: {props.product.productStock}</p>
+      <p>Description: {props.product.description}</p>
+      <p>id: {props.product.id}</p>
+      <p>Category: {props.product.category}</p>
+      <p>Tags: {props.product.productTags}</p>
 
+      <p>On stock: {props.product.productStock}</p>
+      <p>
+        <a
+          href={`/products/update-product-name/${props.product.id}`}
+          style={{ color: 'red' }}
+        >
+          Update product name to Woooch!
+        </a>
+      </p>
+      <p>
+        <a
+          href={`/products/delete/${props.product.id}`}
+          style={{ color: 'red' }}
+        >
+          Delete product
+        </a>
+      </p>
       <div>Number of items in the cart: {quantityInTheCart?.quantity || 0}</div>
       <button
         onClick={() => {
@@ -66,6 +92,9 @@ export default function SingleProduct(props) {
       >
         Remove from cart
       </button>
+      <Link href="../cart">
+        <a>Go to your cart</a>
+      </Link>
     </Layout>
   );
 }

@@ -30,6 +30,9 @@ export default function Layout(props) {
           <Link href="/products">
             <a>Products</a>
           </Link>
+          <Link href="/cart">
+            <a>Your cart</a>
+          </Link>
         </nav>
       </header>
       {props.children}

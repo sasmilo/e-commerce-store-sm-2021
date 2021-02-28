@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Image from 'next/image';
 import Link from 'next/link';
 import Layout from '../../components/Layout';
 
@@ -14,8 +15,13 @@ export default function Products(props) {
           <li key={`product-${product.id}`}>
             <Link href={`/products/${product.id}`}>
               <a>
-                {/* {product.productImage} */}
-                {product.category}
+                <Image
+                  src={`/${product.productImage}`}
+                  alt="Hat"
+                  width={40}
+                  height={40}
+                />
+                {/* {product.category} */}
                 {'  '}
                 {product.productName}
               </a>

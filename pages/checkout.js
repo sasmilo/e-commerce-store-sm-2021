@@ -3,27 +3,21 @@ import Head from 'next/head';
 import * as Yup from 'yup';
 // import finalShoppingCart from '../cart.js';
 import Layout from '../components/Layout';
-import { sumOfProductsInCart } from '../util/cookies';
+import { deleteAllProductsFromCookieCart } from '../util/cookies.js';
 import { getProductInformation } from '../util/database.js';
 
 export default function Checkout(props) {
-  const products = props.products;
-  const cart = props.finalShoppingCart;
-  // console.log(cart);
+  // const products = props.products;
+  const cart = props.finalShoppingCartWithSubtotals;
 
-  // function calculateTotal() {
-  //   const total = cart.reduce((acc, curr) => {
-  //     return (
-  //       acc +
-  //       curr.amount *
-  //         products.filter((product) => product.id === curr.id)[0].price
-  //     );
-  //   }, 0);
-  //   return total;
-  // }
+  const totalValue = cart.reduce(function (accumulator, currentValue) {
+    return accumulator + currentValue.subtotal;
+  }, 0);
+  // console.log(cart);
 
   function redirect() {
     window.location.href = 'thankyou';
+    deleteAllProductsFromCookieCart();
     return false;
   }
 
@@ -62,7 +56,7 @@ export default function Checkout(props) {
       <div>
         <div>
           <form onSubmit={formik.handleSubmit}>
-            <p>Total Purchase: {sumOfProductsInCart(cart)}€</p>
+            <p>Total Purchase: {`${totalValue.toFixed(2)} €`}</p>
             <label htmlFor="firstName">First Name</label>
             <input
               id="firstName"
@@ -132,19 +126,10 @@ export default function Checkout(props) {
 }
 
 export async function getServerSideProps(context) {
-  // const { getProductInformation } = await import('../util/database');
-  // const products = await getProductInformation();
-  // const cartCookie = Cookies.get('cart');
-
-  //   const cartCookieObject = Cookies.getJSON('cart');
-
   const cart = context.req.cookies.cart;
   const cartCookieObject = cart ? JSON.parse(cart) : [];
 
   // console.log(cartCookieObject);
-
-  // const id = Number(context.query.productId);
-  // console.log('query', context.query);
 
   const products = await getProductInformation();
 
@@ -157,26 +142,20 @@ export async function getServerSideProps(context) {
     };
   });
 
-  // console.log(finalShoppingCart);
+  const finalShoppingCartWithSubtotals = finalShoppingCart.map(
+    (cookieProduct) => {
+      return {
+        ...finalShoppingCart.find((product) => cookieProduct.id === product.id),
+        subtotal: cookieProduct.quantity * cookieProduct.productPrice,
+      };
+    },
+  );
+
+  console.log(finalShoppingCartWithSubtotals);
 
   return {
     props: {
-      cartCookieObject: cartCookieObject,
-      products: products,
-      finalShoppingCart: finalShoppingCart,
+      finalShoppingCartWithSubtotals: finalShoppingCartWithSubtotals,
     },
   };
 }
-
-// export async function getServerSideProps(context) {
-//   const products = await getProductInformation();
-//   const cart = context.req.cookies.cart;
-//   const cartCookieObject = cart ? JSON.parse(cart) : [];
-
-//   return {
-//     props: {
-//       cartCookieObject: cartCookieObject,
-//       products: products,
-//     },
-//   };
-// }

@@ -9,10 +9,7 @@ export function getCartFromCookie() {
   return cart;
 }
 
-export function addProductToCart(
-  cartCookieValue,
-  id,
-) {
+export function addProductToCart(cartCookieValue, id) {
   const idInArray = cartCookieValue.some(
     (productAdded) => productAdded.id === id,
   );
@@ -60,7 +57,7 @@ export function deleteAllProductsFromCookieCart() {
 export function sumOfProductsInCart() {
   const cart = getCartFromCookie();
 
-  const findCartValues = cart.map((item) => item.count);
+  const findCartValues = cart.map((item) => item.quantity);
 
   const reducer = (accumulator, currentValue) =>
     parseInt(accumulator) + parseInt(currentValue);

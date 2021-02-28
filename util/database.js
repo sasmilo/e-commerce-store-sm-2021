@@ -43,3 +43,25 @@ export async function getProductById(id) {
 //     { id: '3', category: 'accessories', productName: 'Keychain' },
 //   ];
 // }
+
+export async function deleteProductById(id) {
+  const products = await sql`
+    DELETE FROM products WHERE
+    id =${id}
+    RETURNING *
+    `;
+
+  return camelcaseRecords(products)[0];
+}
+
+export async function updateProductNameById(id, productName) {
+  const products = await sql`
+    UPDATE products SET
+      product_name = ${productName}
+    WHERE
+      id = ${id}
+    RETURNING *
+    `;
+
+  return camelcaseRecords(products)[0];
+}

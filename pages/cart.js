@@ -1,24 +1,30 @@
 import Head from 'next/head';
+import Image from 'next/image';
 import Link from 'next/link';
 import Layout from '../components/Layout';
 import { getProductInformation } from '../util/database.js';
 
 export default function ShoppingCart(props) {
-  const cart = props.finalShoppingCart;
-  // const [cart, setCart] = useState(props.cartCookieObject);
-  // const products = props.products;
+  const cart = props.finalShoppingCartWithSubtotals;
 
-  // if (cart === []) {
-  //   return (
-  //     <Layout>
-  //       <Head>
-  //         <title>The cart is empty</title>
-  //       </Head>
-  //       <h1>Your cart is empty!</h1>
-  //       <p>Would you be interested in some of our cool hats?</p>
-  //     </Layout>
-  //   );
-  // }
+  const totalValue = cart.reduce(function (accumulator, currentValue) {
+    return accumulator + currentValue.subtotal;
+  }, 0);
+  // const subtotal = cart.map(
+  //   ({ productPrice, quantity }) => productPrice * quantity,
+  // );
+
+  if (cart === []) {
+    return (
+      <Layout>
+        <Head>
+          <title>The cart is empty</title>
+        </Head>
+        <h1>Your cart is empty!</h1>
+        <p>Would you be interested in some of our cool hats?</p>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
@@ -32,25 +38,34 @@ export default function ShoppingCart(props) {
           </div>
 
           <ul>
-            {props.finalShoppingCart.map((object) => (
+            {props.finalShoppingCartWithSubtotals.map((object) => (
               <li key={object.id}>
-                {'  '}
-                {object.productId}
-                {'  '}
-                {object.productImage}
-                {'  '}
+                <Image
+                  src={`/${object.productImage}`}
+                  alt="Hat"
+                  width={40}
+                  height={40}
+                />
                 {object.productName}
                 {'  '}
-                {object.productPrice}
+                {object.productPrice.toFixed(2)}
+                {'€'}
                 {'  '}
                 {object.quantity}
+                {'  '}
+                {object.subtotal.toFixed(2)}
+                {'€'}
               </li>
             ))}
           </ul>
+          <p>Total value: {`${totalValue.toFixed(2)} €`}</p>
 
           {/* <CartFunction products={products} cart={cart} setCart={setCart} /> */}
           <Link href="/checkout">
-            <a data-cy="checkout-button">Go to checkout</a>
+            <a>Go to checkout</a>
+          </Link>
+          <Link href="/products">
+            <a>Shop some more</a>
           </Link>
         </div>
       </div>
@@ -59,19 +74,10 @@ export default function ShoppingCart(props) {
 }
 
 export async function getServerSideProps(context) {
-  // const { getProductInformation } = await import('../util/database');
-  // const products = await getProductInformation();
-  // const cartCookie = Cookies.get('cart');
-
-  //   const cartCookieObject = Cookies.getJSON('cart');
-
   const cart = context.req.cookies.cart;
   const cartCookieObject = cart ? JSON.parse(cart) : [];
 
   // console.log(cartCookieObject);
-
-  // const id = Number(context.query.productId);
-  // console.log('query', context.query);
 
   const products = await getProductInformation();
 
@@ -84,13 +90,22 @@ export async function getServerSideProps(context) {
     };
   });
 
-  // console.log(finalShoppingCart);
+  const finalShoppingCartWithSubtotals = finalShoppingCart.map(
+    (cookieProduct) => {
+      return {
+        ...finalShoppingCart.find((product) => cookieProduct.id === product.id),
+        subtotal: cookieProduct.quantity * cookieProduct.productPrice,
+      };
+    },
+  );
+
+  console.log(finalShoppingCartWithSubtotals);
 
   return {
     props: {
       cartCookieObject: cartCookieObject,
       products: products,
-      finalShoppingCart: finalShoppingCart,
+      finalShoppingCartWithSubtotals: finalShoppingCartWithSubtotals,
     },
   };
 }
