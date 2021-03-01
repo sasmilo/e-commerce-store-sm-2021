@@ -49,7 +49,7 @@ export default function Checkout(props) {
   });
 
   return (
-    <Layout>
+    <Layout cart={cart}>
       <Head>
         <title>Checkout</title>
       </Head>

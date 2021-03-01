@@ -18,7 +18,7 @@ export default function SingleProduct(props) {
 
   if (!props.product) {
     return (
-      <Layout>
+      <Layout cart={cart}>
         <Head>
           <title>Product not found</title>
         </Head>
@@ -36,7 +36,7 @@ export default function SingleProduct(props) {
   );
 
   return (
-    <Layout>
+    <Layout cart={cart}>
       <Head>
         <title>Single Product</title>
       </Head>
@@ -48,29 +48,7 @@ export default function SingleProduct(props) {
         height={200}
       />
       <p>Price: {props.product.productPrice} €</p>
-      <p>Description: {props.product.description}</p>
-      <p>id: {props.product.id}</p>
-      <p>Category: {props.product.category}</p>
-      <p>Tags: {props.product.productTags}</p>
-
-      <p>On stock: {props.product.productStock}</p>
-      <p>
-        <a
-          href={`/products/update-product-name/${props.product.id}`}
-          style={{ color: 'red' }}
-        >
-          Update product name to Woooch!
-        </a>
-      </p>
-      <p>
-        <a
-          href={`/products/delete/${props.product.id}`}
-          style={{ color: 'red' }}
-        >
-          Delete product
-        </a>
-      </p>
-      <div>Number of items in the cart: {quantityInTheCart?.quantity || 0}</div>
+      <div>In the cart: {quantityInTheCart?.quantity || 0}</div>
       <button
         onClick={() => {
           const newCart = addProductToCart(
@@ -95,6 +73,28 @@ export default function SingleProduct(props) {
       <Link href="../cart">
         <a>Go to your cart</a>
       </Link>
+      <p>Description: {props.product.description}</p>
+      <p>id: {props.product.id}</p>
+      <p>Category: {props.product.category}</p>
+      <p>Tags: {props.product.productTags}</p>
+
+      <p>On stock: {props.product.productStock}</p>
+      {/* <p>
+        <a
+          href={`/products/update-product-name/${props.product.id}`}
+          style={{ color: 'red' }}
+        >
+          Update product name to Woooch!
+        </a>
+      </p>
+      <p>
+        <a
+          href={`/products/delete/${props.product.id}`}
+          style={{ color: 'red' }}
+        >
+          Delete product
+        </a>
+      </p> */}
     </Layout>
   );
 }

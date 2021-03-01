@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import Head from 'next/head';
+import Image from 'next/image';
 import Link from 'next/link';
 
 const headerStyles = css`
@@ -13,6 +14,17 @@ const headerStyles = css`
 `;
 
 export default function Layout(props) {
+  const cart = props.cart;
+  // console.log(props);
+  let numberOfItems = cart.reduce(
+    (accumulator, current) => accumulator + current.quantity,
+    0,
+  );
+  // console.log(numberOfItems);
+  if (numberOfItems === undefined || numberOfItems === '0') {
+    numberOfItems = '';
+  }
+
   return (
     <>
       <Head>
@@ -31,7 +43,19 @@ export default function Layout(props) {
             <a>Products</a>
           </Link>
           <Link href="/cart">
-            <a>Your cart</a>
+            <a>
+              <Image
+                src="/shopping-cart.png"
+                alt="shopping cart"
+                width={33}
+                height={30}
+              />
+            </a>
+          </Link>
+          <Link href="/shopping-bag">
+            <a data-cy="bag-icon" css={numberOfItems}>
+              {numberOfItems}
+            </a>
           </Link>
         </nav>
       </header>
