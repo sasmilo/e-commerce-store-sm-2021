@@ -69,9 +69,7 @@ export default function ShoppingCart(props) {
                   />
                   {object.productName}
                   {'  '}
-                  {object.productPrice.toFixed(2)}
-                  {'€'}
-                  {'  '}
+                  {object.productPrice.toFixed(2)}€{'  '}
                   <button
                     onClick={() => {
                       const newCart = removeProductFromCart(cart, object.id);
@@ -97,8 +95,7 @@ export default function ShoppingCart(props) {
                     +
                   </button>
                   {'  '}
-                  {(object.productPrice * object.quantity).toFixed(2)}
-                  {'€'}
+                  {(object.productPrice * object.quantity).toFixed(2)}€
                 </li>
               ))}
             </ul>

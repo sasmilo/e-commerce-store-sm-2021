@@ -3,14 +3,99 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 
+const ourRed = '#8e0b0b';
+const ourGray = '#1d2d35';
+const lightGray = '#f5f5f5';
+const footerGray = '#171727';
+const white = '#fff';
+const parGray = '#283c46';
+
 const headerStyles = css`
+  background: ${lightGray};
+  color: ${ourGray};
   border: 1px solid #ddd;
   border-radius: 5px;
   padding: 8px;
 
+  div {
+    display: flex;
+    flex-direction: row;
+  }
+
   a + a {
     margin-left: 25px;
   }
+`;
+
+const headerDiv1 = css`
+  padding-right: auto;
+`;
+
+const headerDiv2 = css`
+  padding-top: 8px;
+  padding-right: 28px;
+  align-items: right;
+
+  a {
+    color: ${ourGray};
+    text-decoration: none;
+    display: block;
+    padding: 12px 19px 0;
+    margin-top: 10 px;
+    outline-offset: -1px;
+    transition: all 0.2s ease-in-out;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    line-height: 1;
+    text-transform: uppercase;
+    background-color: transparent;
+    border-bottom: 2px solid transparent;
+    font-family: 'PT Sans', 'Helvetica', 'Arial', sans-serif;
+
+    :nth-child(4) {
+      background-color: ${ourRed};
+      border-radius: 50%;
+      color: ${lightGray};
+      margin: 35px 0 0 0;
+      padding: 5px;
+      font-size: 0.4rem;
+      border: none;
+      position: fixed;
+      right: 50px;
+      top: -15px;
+    }
+
+    :hover {
+      border-bottom: 2px solid ${ourRed};
+    }
+  }
+`;
+
+const navStyles = css`
+  display: flex;
+  justify-content: space-between;
+  /* grid-template-columns: 1fr 4fr; */
+`;
+
+const footerStyles = css`
+  border-top: 0.7px solid rgba(255, 255, 255, 0.5);
+  padding: 0.6rem 0 0.7rem 0;
+  background: ${footerGray};
+  text-align: center;
+  color: ${white};
+  font-family: 'PT Sans', 'Helvetica', 'Arial', sans-serif;
+
+  p {
+    opacity: 0.5;
+    font-size: 0.75rem;
+  }
+`;
+
+const bodyStyles = css`
+  background: ${lightGray};
+  margin: 0;
+  padding: 0;
 `;
 
 export default function Layout(props) {
@@ -32,36 +117,47 @@ export default function Layout(props) {
       </Head>
 
       <header css={headerStyles}>
-        <nav>
-          <Link href="/">
-            <a>Home</a>
-          </Link>
-          <Link href="/about">
-            <a>About</a>
-          </Link>
-          <Link href="/products">
-            <a>Products</a>
-          </Link>
-          <Link href="/cart">
-            <a>
-              <Image
-                src="/shopping-cart.png"
-                alt="shopping cart"
-                width={33}
-                height={30}
-              />
-            </a>
-          </Link>
-          <Link href="/shopping-bag">
-            <a data-cy="bag-icon" css={numberOfItems}>
-              {numberOfItems}
-            </a>
-          </Link>
+        <nav css={navStyles}>
+          <div css={headerDiv1}>
+            <Link href="/">
+              <a>
+                <Image
+                  src="/hatter-matter-logo2.png"
+                  alt="hatter matter logo"
+                  width={207}
+                  height={52}
+                />
+              </a>
+            </Link>
+          </div>
+          <div css={headerDiv2}>
+            <Link href="/about">
+              <a>About</a>
+            </Link>
+            <Link href="/products">
+              <a>Products</a>
+            </Link>
+            <Link href="/cart">
+              <a>
+                <Image
+                  src="/shopping-cart.png"
+                  alt="shopping cart"
+                  width={33}
+                  height={30}
+                />
+              </a>
+            </Link>
+            <Link href="/cart">
+              <a>{numberOfItems}</a>
+            </Link>
+          </div>
         </nav>
       </header>
-      {props.children}
-      <footer style={{ borderTop: '1px solid #ddd', padding: 8 }}>
-        Footer
+      <div css={bodyStyles}>{props.children}</div>
+      <footer css={footerStyles}>
+        <p>
+          © 2021 · <a href="/">HatterMatter</a> · All rights reserved ·
+        </p>
       </footer>
     </>
   );
