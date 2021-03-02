@@ -61,9 +61,9 @@ const headerDiv2 = css`
       padding: 5px;
       font-size: 0.4rem;
       border: none;
-      position: fixed;
-      right: 50px;
-      top: -15px;
+      position: relative;
+      right: 30px;
+      top: -30px;
     }
 
     :hover {
@@ -75,7 +75,6 @@ const headerDiv2 = css`
 const navStyles = css`
   display: flex;
   justify-content: space-between;
-  /* grid-template-columns: 1fr 4fr; */
 `;
 
 const footerStyles = css`
@@ -83,12 +82,16 @@ const footerStyles = css`
   padding: 0.6rem 0 0.7rem 0;
   background: ${footerGray};
   text-align: center;
-  color: ${white};
+  color: white;
   font-family: 'PT Sans', 'Helvetica', 'Arial', sans-serif;
 
   p {
     opacity: 0.5;
     font-size: 0.75rem;
+  }
+  a {
+    text-decoration: none;
+    color: ${lightGray};
   }
 `;
 
@@ -96,6 +99,8 @@ const bodyStyles = css`
   background: ${lightGray};
   margin: 0;
   padding: 0;
+  min-height: 78vh;
+  /* display: flex; */
 `;
 
 export default function Layout(props) {
