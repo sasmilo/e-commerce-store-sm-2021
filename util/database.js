@@ -35,15 +35,6 @@ export async function getProductById(id) {
   return camelcaseRecords(products)[0];
 }
 
-// export function getProductInformation() {
-//   return [
-//     { id: '0', category: 'shirts', productName: 'T-shirt short sleeve' },
-//     { id: '1', category: 'shirts', productName: 'Long sleeve' },
-//     { id: '2', category: 'shirts', productName: 'Hoodie' },
-//     { id: '3', category: 'accessories', productName: 'Keychain' },
-//   ];
-// }
-
 export async function deleteProductById(id) {
   const products = await sql`
     DELETE FROM products WHERE

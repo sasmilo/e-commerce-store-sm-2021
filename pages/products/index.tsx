@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -41,10 +42,47 @@ const productImageStyles = css`
   border-radius: 10px;
 `;
 
-export default function Products(props) {
-  const cart = props.finalShoppingCartWithSubtotals;
+type FinalShoppingCart = {
+  id: number;
+  category: string;
+  productName: string;
+  productPrice: number;
+  description: string;
+  productImage: string;
+  productStock: number;
+  productSize: string;
+  productColor: string;
+  productTags: string;
+  quantity: number;
+};
+
+type DBProduct = {
+  id: number;
+  category: string;
+  productName: string;
+  productPrice: number;
+  description: string;
+  productImage: string;
+  productStock: number;
+  productSize: string;
+  productColor: string;
+  productTags: string;
+};
+
+type CartCookieObject = {
+  id: number;
+  quantity: number;
+};
+
+type Props = {
+  finalShoppingCart: FinalShoppingCart[];
+  products: DBProduct[];
+};
+
+export default function Products(props: Props) {
+  const cart = props.finalShoppingCart;
   return (
-    <Layout cart={cart}>
+    <Layout finalShoppingCart={cart}>
       <Head>
         <title>Products</title>
       </Head>
@@ -76,7 +114,7 @@ export default function Products(props) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   const cart = context.req.cookies.cart;
   const cartCookieObject = cart ? JSON.parse(cart) : [];
 
@@ -86,18 +124,13 @@ export async function getServerSideProps(context) {
 
   // console.log(products);
 
-  const finalShoppingCart = cartCookieObject.map((cookieProduct) => {
-    return {
-      ...products.find((product) => cookieProduct.id === product.id),
-      quantity: cookieProduct.quantity,
-    };
-  });
-
-  const finalShoppingCartWithSubtotals = finalShoppingCart.map(
-    (cookieProduct) => {
+  const finalShoppingCart = cartCookieObject.map(
+    (cookieProduct: CartCookieObject) => {
       return {
-        ...finalShoppingCart.find((product) => cookieProduct.id === product.id),
-        subtotal: cookieProduct.quantity * cookieProduct.productPrice,
+        ...products.find(
+          (product: DBProduct) => cookieProduct.id === product.id,
+        ),
+        quantity: cookieProduct.quantity,
       };
     },
   );
@@ -108,7 +141,7 @@ export async function getServerSideProps(context) {
     props: {
       cartCookieObject: cartCookieObject,
       products: products,
-      finalShoppingCartWithSubtotals: finalShoppingCartWithSubtotals,
+      finalShoppingCart: finalShoppingCart,
     },
   };
 }

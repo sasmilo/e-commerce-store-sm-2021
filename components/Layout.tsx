@@ -7,8 +7,6 @@ const ourRed = '#8e0b0b';
 const ourGray = '#1d2d35';
 const lightGray = '#f5f5f5';
 const footerGray = '#171727';
-const white = '#fff';
-const parGray = '#283c46';
 
 const headerStyles = css`
   background: ${lightGray};
@@ -96,24 +94,52 @@ const footerStyles = css`
 `;
 
 const bodyStyles = css`
-  background: ${lightGray};
+  background: white;
   margin: 0;
-  padding: 0;
-  min-height: 78vh;
-  /* display: flex; */
+  padding: 30px 0 0 0;
+  min-height: 78.3vh;
+
+  h1 {
+    font-family: 'Crimson Text Regular', 'PT Sans', 'Helvetica', 'Arial',
+      sans-serif;
+  }
+
+  p {
+    font-family: 'Source Sans Pro Regular', 'PT Sans', 'Helvetica', 'Arial',
+      sans-serif;
+  }
 `;
 
-export default function Layout(props) {
-  const cart = props.cart;
-  // console.log(props);
-  let numberOfItems = cart.reduce(
+type FinalShoppingCart = {
+  id: number;
+  category: string;
+  productName: string;
+  productPrice: number;
+  description: string;
+  productImage: string;
+  productStock: number;
+  productSize: string;
+  productColor: string;
+  productTags: string;
+  quantity: number;
+};
+
+type Props = {
+  finalShoppingCart: FinalShoppingCart[];
+  children: React.ReactNode;
+};
+
+export default function Layout(props: Props) {
+  const cart = props.finalShoppingCart;
+  console.log(props);
+  const numberOfItems = cart.reduce(
     (accumulator, current) => accumulator + current.quantity,
     0,
   );
   // console.log(numberOfItems);
-  if (numberOfItems === undefined || numberOfItems === '0') {
-    numberOfItems = '';
-  }
+  // if (numberOfItems === undefined || numberOfItems === '0') {
+  //   numberOfItems = 0;
+  // }
 
   return (
     <>

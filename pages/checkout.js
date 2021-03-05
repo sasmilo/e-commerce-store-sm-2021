@@ -1,19 +1,17 @@
 import { useFormik } from 'formik';
 import Head from 'next/head';
 import * as Yup from 'yup';
-// import finalShoppingCart from '../cart.js';
 import Layout from '../components/Layout';
 import { deleteAllProductsFromCookieCart } from '../util/cookies.js';
 import { getProductInformation } from '../util/database.js';
 
 export default function Checkout(props) {
-  // const products = props.products;
-  const cart = props.finalShoppingCartWithSubtotals;
+  const cart = props.finalShoppingCart;
 
   const totalValue = cart.reduce(function (accumulator, currentValue) {
-    return accumulator + currentValue.subtotal;
+    const subtotal = currentValue.productPrice * currentValue.quantity;
+    return accumulator + subtotal;
   }, 0);
-  // console.log(cart);
 
   function redirect() {
     window.location.href = 'thankyou';
@@ -37,27 +35,33 @@ export default function Checkout(props) {
         .max(40, 'Must be 40 characters or less')
         .required('Required'),
       email: Yup.string().email('Invalid email address').required('Required'),
-      shipping: Yup.string().min(10, 'Invalid address').required('Required'),
+      shipping: Yup.string().min(5, 'Invalid address').required('Required'),
+      city: Yup.string().min(2, 'Invalid address').required('Required'),
+      zip: Yup.string().required('Required'),
       card: Yup.number()
         .min(123456789012, 'Invalid card number')
         .required('Required'),
     }),
-    onSubmit: (values) => {
+    onSubmit: () => {
       alert('Your purchase has been submitted');
       redirect();
     },
   });
 
   return (
-    <Layout cart={cart}>
+    <Layout finalShoppingCart={cart}>
       <Head>
         <title>Checkout</title>
       </Head>
       <div>
         <div>
           <form onSubmit={formik.handleSubmit}>
-            <p>Total Purchase: {`${totalValue.toFixed(2)} €`}</p>
+            <p>
+              Total Purchase: <strong>{`${totalValue.toFixed(2)} €`}</strong>
+            </p>
+            <br />
             <label htmlFor="firstName">First Name</label>
+            {'   '}
             <input
               id="firstName"
               name="firstName"
@@ -69,7 +73,9 @@ export default function Checkout(props) {
             {formik.touched.firstName && formik.errors.firstName ? (
               <div>{formik.errors.firstName}</div>
             ) : null}
+            <br />
             <label htmlFor="lastName">Last Name</label>
+            {'   '}
             <input
               id="lastName"
               name="lastName"
@@ -81,7 +87,9 @@ export default function Checkout(props) {
             {formik.touched.lastName && formik.errors.lastName ? (
               <div>{formik.errors.lastName}</div>
             ) : null}
+            <br />
             <label htmlFor="email">Email Address</label>
+            {'   '}
             <input
               id="email"
               name="email"
@@ -93,7 +101,9 @@ export default function Checkout(props) {
             {formik.touched.email && formik.errors.email ? (
               <div>{formik.errors.email}</div>
             ) : null}
+            <br />
             <label htmlFor="shipping">Shipping Address</label>
+            {'   '}
             <input
               id="shipping"
               name="shipping"
@@ -105,7 +115,38 @@ export default function Checkout(props) {
             {formik.touched.shipping && formik.errors.shipping ? (
               <div>{formik.errors.shipping}</div>
             ) : null}
+            <br />
+            <label htmlFor="city">City</label>
+            {'   '}
+            <input
+              id="city"
+              name="city"
+              type="text"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.city}
+            />
+            {formik.touched.city && formik.errors.city ? (
+              <div>{formik.errors.city}</div>
+            ) : null}
+            <br />
+            <label htmlFor="zip">ZIP</label>
+            {'   '}
+            <input
+              id="zip"
+              name="zip"
+              type="text"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.zip}
+            />
+            {formik.touched.zip && formik.errors.zip ? (
+              <div>{formik.errors.zip}</div>
+            ) : null}
+            {'   '}
+            <br />
             <label htmlFor="card">Card Number</label>
+            {'   '}
             <input
               id="card"
               name="card"
@@ -117,6 +158,7 @@ export default function Checkout(props) {
             {formik.touched.card && formik.errors.card ? (
               <div>{formik.errors.card}</div>
             ) : null}
+            {'   '}
             <button type="submit">BUY NOW</button>
           </form>
         </div>
@@ -142,20 +184,9 @@ export async function getServerSideProps(context) {
     };
   });
 
-  const finalShoppingCartWithSubtotals = finalShoppingCart.map(
-    (cookieProduct) => {
-      return {
-        ...finalShoppingCart.find((product) => cookieProduct.id === product.id),
-        subtotal: cookieProduct.quantity * cookieProduct.productPrice,
-      };
-    },
-  );
-
-  console.log(finalShoppingCartWithSubtotals);
-
   return {
     props: {
-      finalShoppingCartWithSubtotals: finalShoppingCartWithSubtotals,
+      finalShoppingCart: finalShoppingCart,
     },
   };
 }

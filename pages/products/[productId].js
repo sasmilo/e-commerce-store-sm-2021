@@ -1,13 +1,104 @@
+import { css } from '@emotion/react';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { addProductToCookieCart } from '../../components/addToCart';
 import Layout from '../../components/Layout';
-import {
-  addProductToCart,
-  removeProductFromCart,
-  setCartCookieClientSide,
-} from '../../util/cookies';
+import { setCartCookieClientSide } from '../../components/setCartCookie';
+import { removeProductFromCart } from '../../util/cookies';
+
+const ourRed = '#8e0b0b';
+const paddBott = '20px';
+
+const singleProductStyle = css`
+  display: block;
+  align-items: center;
+`;
+
+const productNameStyle = css`
+  font-family: 'Crimson Text Regular', 'PT Sans', 'Helvetica', 'Arial',
+    sans-serif;
+  text-align: center;
+  padding-bottom: ${paddBott};
+`;
+
+const productImageStyle = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: ${paddBott};
+`;
+
+const productPriceStyle = css`
+  font-family: 'Source Sans Pro Regular', 'PT Sans', 'Helvetica', 'Arial',
+    sans-serif;
+  text-align: center;
+  padding-bottom: ${paddBott};
+
+  p {
+    font-size: 1.2em;
+  }
+
+  p + p {
+    font-size: 0.8em;
+  }
+`;
+
+const productButtonsStyle = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: ${paddBott};
+
+  button {
+    display: inline-block;
+    padding: 0.35em 1.2em;
+    border: 0.1em solid #ffffff;
+    border-radius: 15px;
+    background-color: ${ourRed};
+    margin: 0 0.3em 0.3em 0;
+    border-radius: 0.12em;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.8em;
+    font-weight: 500;
+    color: white;
+    text-align: center;
+    transition: all 0.2s;
+    cursor: pointer;
+
+    :hover {
+      transform: scale(1.05);
+      transition: all 0.2s ease-in-out;
+    }
+  }
+`;
+
+const productDescriptionStyle = css`
+  font-family: 'Source Sans Pro Regular', 'PT Sans', 'Helvetica', 'Arial',
+    sans-serif;
+  text-align: center;
+  padding-bottom: ${paddBott};
+  font-size: 0.8em;
+  max-width: 80%;
+  margin: auto;
+`;
+
+const productDetailsStyle = css`
+  font-family: 'Source Sans Pro Regular', 'PT Sans', 'Helvetica', 'Arial',
+    sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: ${paddBott};
+  font-size: 0.6em;
+
+  p + p {
+    padding-left: 10px;
+  }
+`;
 
 export default function SingleProduct(props) {
   const [cart, setCart] = useState(props.cartCookieValue);
@@ -18,15 +109,17 @@ export default function SingleProduct(props) {
 
   if (!props.product) {
     return (
-      <Layout cart={cart}>
+      <Layout finalShoppingCart={cart}>
         <Head>
           <title>Product not found</title>
         </Head>
-        <h1>Product not found</h1>
-        <p>Would you be interested in some of our other cool hats?</p>
-        <Link href="/">
-          <a>Check them out!</a>
-        </Link>
+        <div css={singleProductStyle}>
+          <h1>Product not found</h1>
+          <p>Would you be interested in some of our other cool hats?</p>
+          <Link href="/">
+            <a>Check them out!</a>
+          </Link>
+        </div>
       </Layout>
     );
   }
@@ -36,65 +129,88 @@ export default function SingleProduct(props) {
   );
 
   return (
-    <Layout cart={cart}>
+    <Layout finalShoppingCart={cart}>
       <Head>
         <title>Single Product</title>
       </Head>
-      <h1>{props.product.productName}</h1>
-      <Image
-        src={`/${props.product.productImage}`}
-        alt="Hat"
-        width={200}
-        height={200}
-      />
-      <p>Price: {props.product.productPrice} €</p>
-      <div>In the cart: {quantityInTheCart?.quantity || 0}</div>
-      <button
-        onClick={() => {
-          const newCart = addProductToCart(
-            cart,
-            props.product.id,
-            props.product.productName,
-            props.product.productPrice,
-          );
-          setCart(newCart);
-        }}
-      >
-        Add to cart
-      </button>
-      <button
-        onClick={() => {
-          const newCart = removeProductFromCart(cart, props.product.id);
-          setCart(newCart);
-        }}
-      >
-        Remove from cart
-      </button>
-      <Link href="../cart">
-        <a>Go to your cart</a>
-      </Link>
-      <p>Description: {props.product.description}</p>
-      <p>id: {props.product.id}</p>
-      <p>Category: {props.product.category}</p>
-      <p>Tags: {props.product.productTags}</p>
+      <div css={singleProductStyle}>
+        <div css={productNameStyle}>
+          <h1>{props.product.productName}</h1>
+        </div>
+        <div css={productImageStyle}>
+          <Image
+            src={`/${props.product.productImage}`}
+            alt="Hat"
+            width={250}
+            height={250}
+          />
+        </div>
+        <div css={productPriceStyle}>
+          <p>
+            <strong>Price: {props.product.productPrice.toFixed(2)} €</strong>
+          </p>
+          <p>
+            Quantity of this item in the cart:{' '}
+            {quantityInTheCart?.quantity || 0}
+          </p>
+        </div>
+        <div css={productButtonsStyle}>
+          <button
+            onClick={() => {
+              const newCart = addProductToCookieCart(cart, props.product.id);
+              setCart(newCart);
+            }}
+          >
+            Add to cart
+          </button>
+          <button
+            onClick={() => {
+              const newCart = removeProductFromCart(cart, props.product.id);
+              setCart(newCart);
+            }}
+          >
+            Remove from cart
+          </button>
+          <Link href="../cart">
+            <a>
+              <Image
+                src="/shopping-cart.png"
+                alt="Shopping cart"
+                width={35}
+                height={35}
+              />
+            </a>
+          </Link>
+        </div>
+        <div css={productDescriptionStyle}>
+          <p>
+            <strong>Description:</strong>
+            <br /> <br /> {props.product.description}
+          </p>
+        </div>
+        <div css={productDetailsStyle}>
+          <p>id: {props.product.id}</p>
+          <p>Category: {props.product.category}</p>
+          <p>Tags: {props.product.productTags}</p>
 
-      <p>On stock: {props.product.productStock}</p>
-      {/* <p>
-        <a
-          href={`/products/update-product-name/${props.product.id}`}
-          style={{ color: 'red' }}
-        >
-          Update product name to Woooch!
-        </a>
-      </p>
-      <p>
-        <a
-          href={`/products/delete/${props.product.id}`}
-          style={{ color: 'red' }}
-        >
-          Delete product
-        </a>
-      </p> */}
+          {/* <p>
+            <a
+              href={`/products/update-product-name/${props.product.id}`}
+              style={{ color: 'red' }}
+            >
+              Update product name to Woooch!
+            </a>
+          </p>
+          <p>
+            <a
+              href={`/products/delete/${props.product.id}`}
+              style={{ color: 'red' }}
+            >
+              Delete product
+            </a>
+          </p> */}
+        </div>
+      </div>
     </Layout>
   );
 }
