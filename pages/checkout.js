@@ -63,6 +63,7 @@ export default function Checkout(props) {
             <label htmlFor="firstName">First Name</label>
             {'   '}
             <input
+              data-cy="input-first-name"
               id="firstName"
               name="firstName"
               type="text"
@@ -77,6 +78,7 @@ export default function Checkout(props) {
             <label htmlFor="lastName">Last Name</label>
             {'   '}
             <input
+              data-cy="input-last-name"
               id="lastName"
               name="lastName"
               type="text"
@@ -91,6 +93,7 @@ export default function Checkout(props) {
             <label htmlFor="email">Email Address</label>
             {'   '}
             <input
+              data-cy="input-email"
               id="email"
               name="email"
               type="email"
@@ -105,6 +108,7 @@ export default function Checkout(props) {
             <label htmlFor="shipping">Shipping Address</label>
             {'   '}
             <input
+              data-cy="input-address"
               id="shipping"
               name="shipping"
               type="text"
@@ -119,6 +123,7 @@ export default function Checkout(props) {
             <label htmlFor="city">City</label>
             {'   '}
             <input
+              data-cy="input-city"
               id="city"
               name="city"
               type="text"
@@ -132,7 +137,7 @@ export default function Checkout(props) {
             <br />
             <label htmlFor="zip">ZIP</label>
             {'   '}
-            <input
+            <input data-cy="input-zip"
               id="zip"
               name="zip"
               type="text"
@@ -147,7 +152,7 @@ export default function Checkout(props) {
             <br />
             <label htmlFor="card">Card Number</label>
             {'   '}
-            <input
+            <input data-cy="input-card-number"
               id="card"
               name="card"
               type="text"
@@ -159,7 +164,7 @@ export default function Checkout(props) {
               <div>{formik.errors.card}</div>
             ) : null}
             {'   '}
-            <button type="submit">BUY NOW</button>
+            <button data-cy="button-buy-now" type="submit">BUY NOW</button>
           </form>
         </div>
       </div>

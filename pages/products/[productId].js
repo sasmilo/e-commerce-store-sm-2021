@@ -151,11 +151,14 @@ export default function SingleProduct(props) {
           </p>
           <p>
             Quantity of this item in the cart:{' '}
-            {quantityInTheCart?.quantity || 0}
+            <span data-cy="product-page-amount-in-cart">
+              {quantityInTheCart?.quantity || 0}
+            </span>
           </p>
         </div>
         <div css={productButtonsStyle}>
           <button
+            data-cy="button-add-to-cart"
             onClick={() => {
               const newCart = addProductToCookieCart(cart, props.product.id);
               setCart(newCart);
@@ -164,6 +167,7 @@ export default function SingleProduct(props) {
             Add to cart
           </button>
           <button
+            data-cy="button-remove-from-cart"
             onClick={() => {
               const newCart = removeProductFromCart(cart, props.product.id);
               setCart(newCart);
@@ -172,7 +176,7 @@ export default function SingleProduct(props) {
             Remove from cart
           </button>
           <Link href="../cart">
-            <a>
+            <a data-cy="link-go-to-cart">
               <Image
                 src="/shopping-cart.png"
                 alt="Shopping cart"

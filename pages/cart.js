@@ -149,7 +149,7 @@ export default function ShoppingCart(props) {
   // );
 
   // if (totalValue === 0) {
-  if (cart === []) {
+  if (cart === [] || cart === null) {
     return (
       <Layout finalShoppingCart={cart}>
         <Head>
@@ -174,7 +174,6 @@ export default function ShoppingCart(props) {
       </Layout>
     );
   }
-
   return (
     <Layout finalShoppingCart={cart}>
       <Head>
@@ -218,6 +217,7 @@ export default function ShoppingCart(props) {
                     {object.productPrice.toFixed(2)}€{'  '}
                   </p>
                   <button
+                    data-cy="cart-button-remove-from-cart"
                     onClick={() => {
                       const newCart = removeProductFromCart(cart, object.id);
                       setCart(newCart);
@@ -225,12 +225,13 @@ export default function ShoppingCart(props) {
                   >
                     -
                   </button>
-                  <p>
+                  <p data-cy="amount-of-one-product-in-cart">
                     {/* Just in order to make string out of the next line */}
                     {object.quantity.toFixed(0)}
                   </p>
 
                   <button
+                    data-cy="cart-button-add-to-cart"
                     onClick={() => {
                       const newCart = addProductToRealCart(
                         cart,
@@ -249,15 +250,15 @@ export default function ShoppingCart(props) {
             </ul>
           </div>
           <div css={cartStyle}>
-            <p>
+            <p data-cy="final-value-of-the-empty-cart">
               <strong>Total: {`${totalValue.toFixed(2)} €`}</strong>
             </p>
             <div>
               <Link href="/checkout">
-                <a>Go to checkout</a>
+                <a data-cy="go-to-checkout">Go to checkout</a>
               </Link>
               <Link href="/products">
-                <a>Shop some more</a>
+                <a data-cy="go-back-to-shop">Shop some more</a>
               </Link>
             </div>
           </div>

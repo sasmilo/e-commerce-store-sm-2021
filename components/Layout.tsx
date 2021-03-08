@@ -166,10 +166,10 @@ export default function Layout(props: Props) {
               <a>About</a>
             </Link>
             <Link href="/products">
-              <a>Products</a>
+              <a data-cy="header-products">Products</a>
             </Link>
             <Link href="/cart">
-              <a>
+              <a data-cy="header-cart">
                 <Image
                   src="/shopping-cart.png"
                   alt="shopping cart"
@@ -179,7 +179,7 @@ export default function Layout(props: Props) {
               </a>
             </Link>
             <Link href="/cart">
-              <a>{numberOfItems}</a>
+              <a data-cy="header-items-in-the-cart">{numberOfItems}</a>
             </Link>
           </div>
         </nav>

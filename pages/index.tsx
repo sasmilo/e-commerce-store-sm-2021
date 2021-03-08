@@ -48,13 +48,13 @@ export default function Home(props: Props) {
         <title>Home</title>
       </Head>
       <h1>HatterMatter</h1>
+      <p>We're serious about hat!</p>
       <Image
         src="/online-store.jpg"
         alt="Store icon"
         width={328}
         height={246}
       />
-      <p>Here you can find the hat for every head!</p>
     </Layout>
   );
 }

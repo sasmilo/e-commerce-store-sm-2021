@@ -48,7 +48,7 @@ export default function ThankYou(props: Props) {
       <Head>
         <title>Thank you</title>
       </Head>
-      <h1>Thank you for your purchase!</h1>
+      <h1 data-cy="thank-you">Thank you for your purchase!</h1>
 
       <p>Would you like to shop some more?</p>
       <Link href="products">

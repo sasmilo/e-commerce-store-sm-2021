@@ -90,7 +90,7 @@ export default function Products(props: Props) {
         {/* <h1>Perfect hat for every occasion!</h1> */}
         <ul>
           {props.products.map((product) => (
-            <li key={`product-${product.id}`}>
+            <li key={`product-${product.id}`} data-cy={`product-${product.id}`}>
               <Link href={`/products/${product.id}`}>
                 <a>
                   <Image
