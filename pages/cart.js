@@ -233,12 +233,7 @@ export default function ShoppingCart(props) {
                   <button
                     data-cy="cart-button-add-to-cart"
                     onClick={() => {
-                      const newCart = addProductToRealCart(
-                        cart,
-                        object.id,
-                        // object.productName,
-                        // object.productPrice,
-                      );
+                      const newCart = addProductToRealCart(cart, object.id);
                       setCart(newCart);
                     }}
                   >

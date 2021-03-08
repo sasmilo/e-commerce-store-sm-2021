@@ -31,21 +31,3 @@ export function deleteAllProductsFromCookieCart() {
 
   return deleteCookie;
 }
-
-// export function sumOfProductsInCart() {
-//   const cart = getCartFromCookie();
-
-//   const findCartValues = cart.map((item) => item.quantity);
-
-//   const reducer = (accumulator, currentValue) =>
-//     parseInt(accumulator) + parseInt(currentValue);
-
-//   function calcSumOfProducts() {
-//     if (cart.length > 0) {
-//       return findCartValues.reduce(reducer);
-//     } else {
-//       return 0;
-//     }
-//   }
-//   return calcSumOfProducts();
-// }
