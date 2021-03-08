@@ -8,7 +8,7 @@ test('removing item from the cookie, but cookie is not empty after that', () => 
     { id: 15, quantity: 2 },
   ];
   const result = removeProductFromCart(cartCookieValue, idInArray);
-  // expect(result).toEqual([...cartCookieValue, { id: idInArray, quantity: 1 }]);
+
   expect(result).toEqual([
     { id: 17, quantity: 1 },
     { id: 15, quantity: 1 },
