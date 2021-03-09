@@ -2,7 +2,6 @@
   "name": "e-commerce-store-sm-2021",
   "version": "0.1.0",
   "private": true,
-
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -37,7 +36,7 @@
     "@types/yup": "^0.29.11",
     "@typescript-eslint/eslint-plugin": "4.15.0",
     "@typescript-eslint/parser": "4.15.0",
-    "@upleveled/eslint-config-upleveled": "1.7.2",
+    "@upleveled/eslint-config-upleveled": "1.7.3",
     "babel-eslint": "10.1.0",
     "cypress": "^6.6.0",
     "dotenv-cli": "^4.0.0",
