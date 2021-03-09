@@ -1,3 +1,5 @@
+import { totalSum } from '../../components/totalSumFunction';
+
 test('get back the total value of the shopping cart', () => {
   const props = {
     finalShoppingCart: [
@@ -32,12 +34,9 @@ test('get back the total value of the shopping cart', () => {
 
     children: [],
   };
-
   const cart = props.finalShoppingCart;
-  const totalValue = cart.reduce(function (accumulator, currentValue) {
-    const subtotal = currentValue.productPrice * currentValue.quantity;
-    return accumulator + subtotal;
-  }, 0);
 
-  expect(totalValue).toStrictEqual(39);
+  const result = totalSum(cart);
+
+  expect(result).toStrictEqual(39);
 });

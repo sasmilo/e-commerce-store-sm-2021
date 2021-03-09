@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { addProductToRealCart } from '../components/addToCart';
 import Layout from '../components/Layout';
 import { setCartCookieClientSide } from '../components/setCartCookie';
+import { totalSum } from '../components/totalSumFunction';
 import { removeProductFromCart } from '../util/cookies';
 import { getProductInformation } from '../util/database';
 
@@ -140,10 +141,12 @@ export default function ShoppingCart(props) {
     setCartCookieClientSide(cart);
   }, [cart]);
 
-  const totalValue = cart.reduce(function (accumulator, currentValue) {
-    const subtotal = currentValue.productPrice * currentValue.quantity;
-    return accumulator + subtotal;
-  }, 0);
+  const totalValue = totalSum(cart);
+
+  // const totalValue = cart.reduce(function (accumulator, currentValue) {
+  //   const subtotal = currentValue.productPrice * currentValue.quantity;
+  //   return accumulator + subtotal;
+  // }, 0);
   // const subtotal = cart.map(
   //   ({ productPrice, quantity }) => productPrice * quantity,
   // );
