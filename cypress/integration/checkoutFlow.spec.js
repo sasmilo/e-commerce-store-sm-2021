@@ -5,7 +5,7 @@
 // CheckoutFlow();
 
 describe('CheckoutFlow', () => {
-  it('Add to cart, change quantity and remove from cart', () => {
+  it('Buy the product, go to cart, go to checkout page, go to thank you page', () => {
     cy.visit('http://localhost:3000/');
 
     cy.get('[data-cy="header-products"]')
@@ -13,13 +13,15 @@ describe('CheckoutFlow', () => {
 
       .click();
 
-    cy.get('[data-cy=product-20]').click();
+    cy.get('[data-cy=product-20]', { timeout: 10000 }).click();
 
     cy.get('[data-cy="button-add-to-cart"]').click();
 
     cy.get('[data-cy="link-go-to-cart"]').click();
 
-    cy.get('[data-cy="go-to-checkout"]').click();
+    cy.get('[data-cy="go-to-checkout"]', { timeout: 10000 }).click();
+
+    cy.location('pathname').should('match', /\/checkout$/);
 
     cy.get('[data-cy=input-first-name]').type('Sasa');
 
@@ -36,6 +38,8 @@ describe('CheckoutFlow', () => {
     cy.get('[data-cy="input-card-number"]').type('123456789123');
 
     cy.get('[data-cy="button-buy-now"]').click();
+
+    cy.location('pathname').should('match', /\/thankyou$/);
 
     cy.get('[data-cy="thank-you"]').should('be.visible');
 

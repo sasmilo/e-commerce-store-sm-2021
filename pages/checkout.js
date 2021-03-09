@@ -35,7 +35,7 @@ export default function Checkout(props) {
         .max(40, 'Must be 40 characters or less')
         .required('Required'),
       email: Yup.string().email('Invalid email address').required('Required'),
-      shipping: Yup.string().min(5, 'Invalid address').required('Required'),
+      shipping: Yup.string().min(2, 'Invalid address').required('Required'),
       city: Yup.string().min(2, 'Invalid address').required('Required'),
       zip: Yup.string().required('Required'),
       card: Yup.number()
@@ -137,7 +137,8 @@ export default function Checkout(props) {
             <br />
             <label htmlFor="zip">ZIP</label>
             {'   '}
-            <input data-cy="input-zip"
+            <input
+              data-cy="input-zip"
               id="zip"
               name="zip"
               type="text"
@@ -152,7 +153,8 @@ export default function Checkout(props) {
             <br />
             <label htmlFor="card">Card Number</label>
             {'   '}
-            <input data-cy="input-card-number"
+            <input
+              data-cy="input-card-number"
               id="card"
               name="card"
               type="text"
@@ -164,7 +166,9 @@ export default function Checkout(props) {
               <div>{formik.errors.card}</div>
             ) : null}
             {'   '}
-            <button data-cy="button-buy-now" type="submit">BUY NOW</button>
+            <button data-cy="button-buy-now" type="submit">
+              BUY NOW
+            </button>
           </form>
         </div>
       </div>

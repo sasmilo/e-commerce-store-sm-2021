@@ -87,10 +87,9 @@ export default function Products(props: Props) {
         <title>Products</title>
       </Head>
       <div css={productPageStyles}>
-        {/* <h1>Perfect hat for every occasion!</h1> */}
         <ul>
           {props.products.map((product) => (
-            <li key={`product-${product.id}`} data-cy={`product-${product.id}`}>
+            <li data-cy={`product-${product.id}`} key={`product-${product.id}`}>
               <Link href={`/products/${product.id}`}>
                 <a>
                   <Image
