@@ -2,9 +2,7 @@
   "name": "e-commerce-store-sm-2021",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "node": "15.x"
-  },
+
   "scripts": {
     "dev": "next dev",
     "build": "next build",
