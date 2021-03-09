@@ -87,9 +87,9 @@ export default function Products(props: Props) {
         <title>Products</title>
       </Head>
       <div css={productPageStyles}>
-        <ul>
+        <ul data-cy="product-page-content">
           {props.products.map((product) => (
-            <li data-cy={`product-${product.id}`} key={`product-${product.id}`}>
+            <li key={`product-${product.id}`}>
               <Link href={`/products/${product.id}`}>
                 <a>
                   <Image

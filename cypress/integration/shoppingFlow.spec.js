@@ -12,7 +12,9 @@ describe('ShoppingFlow', () => {
 
       .click();
 
-    cy.get('[data-cy=product-17]').click();
+    cy.get('[data-cy="product-page-content"]', { timeout: 10000 });
+
+    cy.get('li').eq(3).find('a').click();
 
     cy.get('[data-cy="button-add-to-cart"]').click();
 
@@ -46,7 +48,9 @@ describe('ShoppingFlow', () => {
 
       .click();
 
-    cy.get('[data-cy=product-16]', { timeout: 60000 }).click();
+    cy.get('[data-cy="product-page-content"]', { timeout: 10000 });
+
+    cy.get('li').eq(1).find('a').click();
 
     cy.get('[data-cy="button-add-to-cart"]').click();
 
