@@ -46,7 +46,7 @@ describe('ShoppingFlow', () => {
 
       .click();
 
-    cy.get('[data-cy=product-16]').click();
+    cy.get('[data-cy=product-16]', { timeout: 60000 }).click();
 
     cy.get('[data-cy="button-add-to-cart"]').click();
 

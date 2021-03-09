@@ -13,13 +13,13 @@ describe('CheckoutFlow', () => {
 
       .click();
 
-    cy.get('[data-cy=product-20]', { timeout: 10000 }).click();
+    cy.get('[data-cy=product-20]', { timeout: 60000 }).click();
 
     cy.get('[data-cy="button-add-to-cart"]').click();
 
     cy.get('[data-cy="link-go-to-cart"]').click();
 
-    cy.get('[data-cy="go-to-checkout"]', { timeout: 10000 }).click();
+    cy.get('[data-cy="go-to-checkout"]', { timeout: 60000 }).click();
 
     cy.location('pathname').should('match', /\/checkout$/);
 
