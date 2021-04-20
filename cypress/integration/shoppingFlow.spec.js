@@ -1,8 +1,4 @@
-// import { ShoppingFlow } from './shoppingFlowComponent.spec';
 
-// ShoppingFlow();
-
-// export function ShoppingFlow() {
 describe('ShoppingFlow', () => {
   it('Add to cart, change quantity and remove from cart', () => {
     cy.visit('http://localhost:3000/');
@@ -91,6 +87,3 @@ describe('ShoppingFlow', () => {
     cy.get('[data-cy="go-back-to-shop"]').click();
   });
 });
-
-// Cypress.Cookies.preserveOnce('cart');
-// }

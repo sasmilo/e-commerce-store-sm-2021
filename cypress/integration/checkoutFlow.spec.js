@@ -1,8 +1,4 @@
-// import { CheckoutFlow } from './checkoutFlowComponent.spec';
-// import { ShoppingFlow } from './shoppingFlowComponent.spec';
 
-// ShoppingFlow();
-// CheckoutFlow();
 
 describe('CheckoutFlow', () => {
   it('Buy the product, go to cart, go to checkout page, go to thank you page', () => {

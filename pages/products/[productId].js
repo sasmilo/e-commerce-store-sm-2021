@@ -220,12 +220,12 @@ export default function SingleProduct(props) {
 }
 
 export async function getServerSideProps(context) {
-  // console.log('c', context);
+
 
   const { getProductById } = await import('../../util/database');
 
   const id = Number(context.query.productId);
-  // console.log('query', context.query);
+
 
   const product = await getProductById(id);
 

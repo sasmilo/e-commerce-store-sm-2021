@@ -69,11 +69,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const cart = context.req.cookies.cart;
   const cartCookieObject = cart ? JSON.parse(cart) : [];
 
-  // console.log(cartCookieObject);
-
   const products = await getProductInformation();
-
-  // console.log(products);
 
   const finalShoppingCart = cartCookieObject.map(
     (cookieProduct: CookieProduct) => {

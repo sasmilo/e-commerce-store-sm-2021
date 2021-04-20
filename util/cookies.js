@@ -1,8 +1,6 @@
 import Cookies from 'js-cookie';
 
-// export function setCartCookieClientSide(newCart) {
-//   Cookies.set('cart', newCart);
-// }
+
 
 export function getCartFromCookie() {
   const cart = Cookies.getJSON('cart') || [];

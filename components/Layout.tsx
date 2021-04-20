@@ -131,15 +131,12 @@ type Props = {
 
 export default function Layout(props: Props) {
   const cart = props.finalShoppingCart;
-  console.log(props);
+
   const numberOfItems = cart.reduce(
     (accumulator, current) => accumulator + current.quantity,
     0,
   );
-  // console.log(numberOfItems);
-  // if (numberOfItems === undefined || numberOfItems === '0') {
-  //   numberOfItems = 0;
-  // }
+
 
   return (
     <>

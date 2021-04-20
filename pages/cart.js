@@ -98,41 +98,7 @@ const listStyle = css`
   }
 `;
 
-// type FinalShoppingCart = {
-//   id: number;
-//   category: string;
-//   productName: string;
-//   productPrice: number;
-//   description: string;
-//   productImage: string;
-//   productStock: number;
-//   productSize: string;
-//   productColor: string;
-//   productTags: string;
-//   quantity: number;
-// };
 
-// type CookieProduct = {
-//   id: number;
-//   quantity: number;
-// };
-
-// type DBProduct = {
-//   id: number;
-//   category: string;
-//   productName: string;
-//   productPrice: number;
-//   description: string;
-//   productImage: string;
-//   productStock: number;
-//   productSize: string;
-//   productColor: string;
-//   productTags: string;
-// };
-
-// type Props = {
-//   finalShoppingCart: FinalShoppingCart[];
-// };
 
 export default function ShoppingCart(props) {
   const [cart, setCart] = useState(props.finalShoppingCart);
@@ -143,15 +109,7 @@ export default function ShoppingCart(props) {
 
   const totalValue = totalSum(cart);
 
-  // const totalValue = cart.reduce(function (accumulator, currentValue) {
-  //   const subtotal = currentValue.productPrice * currentValue.quantity;
-  //   return accumulator + subtotal;
-  // }, 0);
-  // const subtotal = cart.map(
-  //   ({ productPrice, quantity }) => productPrice * quantity,
-  // );
 
-  // if (totalValue === 0) {
   if (cart === [] || cart === null) {
     return (
       <Layout finalShoppingCart={cart}>
@@ -270,11 +228,11 @@ export async function getServerSideProps(context) {
   const cart = context.req.cookies.cart;
   const cartCookieObject = cart ? JSON.parse(cart) : [];
 
-  // console.log(cartCookieObject);
+
 
   const products = await getProductInformation();
 
-  // console.log(products);
+
 
   const finalShoppingCart = cartCookieObject.map((cookieProduct) => {
     return {
@@ -285,8 +243,6 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      // cartCookieObject: cartCookieObject,
-      // products: products,
       finalShoppingCart: finalShoppingCart,
     },
   };
