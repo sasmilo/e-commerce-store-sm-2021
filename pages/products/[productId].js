@@ -107,7 +107,7 @@ export default function SingleProduct(props) {
     setCartCookieClientSide(cart);
   }, [cart]);
 
-  if (!props.product) {
+  if (props.product === null) {
     return (
       <Layout finalShoppingCart={cart}>
         <Head>
@@ -203,12 +203,9 @@ export default function SingleProduct(props) {
 }
 
 export async function getServerSideProps(context) {
-
-
   const { getProductById } = await import('../../util/database');
 
   const id = Number(context.query.productId);
-
 
   const product = await getProductById(id);
 
