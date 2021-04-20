@@ -99,9 +99,6 @@ export default function Products(props: Props) {
                     width={250}
                     height={250}
                   />
-                  <br />
-                  {'  '}
-                  {'  '}
                   {product.productName}
                 </a>
               </Link>

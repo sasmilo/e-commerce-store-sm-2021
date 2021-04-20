@@ -98,8 +98,6 @@ const listStyle = css`
   }
 `;
 
-
-
 export default function ShoppingCart(props) {
   const [cart, setCart] = useState(props.finalShoppingCart);
 
@@ -109,8 +107,7 @@ export default function ShoppingCart(props) {
 
   const totalValue = totalSum(cart);
 
-
-  if (cart === [] || cart === null) {
+  if (cart === [] || cart === null || cart === undefined) {
     return (
       <Layout finalShoppingCart={cart}>
         <Head>
@@ -228,11 +225,7 @@ export async function getServerSideProps(context) {
   const cart = context.req.cookies.cart;
   const cartCookieObject = cart ? JSON.parse(cart) : [];
 
-
-
   const products = await getProductInformation();
-
-
 
   const finalShoppingCart = cartCookieObject.map((cookieProduct) => {
     return {
