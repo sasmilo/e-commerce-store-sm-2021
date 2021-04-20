@@ -4,11 +4,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
-import { setCartCookieClientSide } from '../components/setCartCookie';
-import { totalSum } from '../components/totalSumFunction';
 import { addProductToRealCart } from '../util/addToCart';
 import { removeProductFromCart } from '../util/cookies';
 import { getProductInformation } from '../util/database';
+import { setCartCookieClientSide } from '../util/setCartCookie';
+import { totalSum } from '../util/totalSumFunction';
 
 const paddBott = '20px';
 const ourGray = '#1d2d35';

@@ -51,7 +51,7 @@ const headerDiv2 = css`
     border-bottom: 2px solid transparent;
     font-family: 'PT Sans', 'Helvetica', 'Arial', sans-serif;
 
-    :nth-child(4) {
+    :nth-of-type(4) {
       background-color: ${ourRed};
       border-radius: 50%;
       color: ${lightGray};
@@ -136,7 +136,6 @@ export default function Layout(props: Props) {
     (accumulator, current) => accumulator + current.quantity,
     0,
   );
-
 
   return (
     <>

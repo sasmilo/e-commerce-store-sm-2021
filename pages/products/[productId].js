@@ -4,9 +4,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
-import { setCartCookieClientSide } from '../../components/setCartCookie';
 import { addProductToCookieCart } from '../../util/addToCart';
 import { removeProductFromCart } from '../../util/cookies';
+import { setCartCookieClientSide } from '../../util/setCartCookie';
 
 const ourRed = '#8e0b0b';
 const paddBott = '20px';

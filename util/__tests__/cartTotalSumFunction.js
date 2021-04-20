@@ -1,4 +1,4 @@
-import { totalSum } from '../../components/totalSumFunction';
+import { totalSum } from '../totalSumFunction';
 
 test('get back the total value of the shopping cart', () => {
   const props = {
