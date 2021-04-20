@@ -1,4 +1,4 @@
-import { addProductToCookieCart } from '../../components/addToCart';
+import { addProductToCookieCart } from '../addToCart';
 
 const productIdToAdd = 15;
 

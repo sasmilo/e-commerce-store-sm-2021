@@ -3,10 +3,10 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { addProductToRealCart } from '../components/addToCart';
 import Layout from '../components/Layout';
 import { setCartCookieClientSide } from '../components/setCartCookie';
 import { totalSum } from '../components/totalSumFunction';
+import { addProductToRealCart } from '../util/addToCart';
 import { removeProductFromCart } from '../util/cookies';
 import { getProductInformation } from '../util/database';
 

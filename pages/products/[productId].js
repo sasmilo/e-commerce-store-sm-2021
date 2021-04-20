@@ -3,9 +3,9 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { addProductToCookieCart } from '../../components/addToCart';
 import Layout from '../../components/Layout';
 import { setCartCookieClientSide } from '../../components/setCartCookie';
+import { addProductToCookieCart } from '../../util/addToCart';
 import { removeProductFromCart } from '../../util/cookies';
 
 const ourRed = '#8e0b0b';
@@ -196,23 +196,6 @@ export default function SingleProduct(props) {
           <p>id: {props.product.id}</p>
           <p>Category: {props.product.category}</p>
           <p>Tags: {props.product.productTags}</p>
-
-          {/* <p>
-            <a
-              href={`/products/update-product-name/${props.product.id}`}
-              style={{ color: 'red' }}
-            >
-              Update product name to Woooch!
-            </a>
-          </p>
-          <p>
-            <a
-              href={`/products/delete/${props.product.id}`}
-              style={{ color: 'red' }}
-            >
-              Delete product
-            </a>
-          </p> */}
         </div>
       </div>
     </Layout>
