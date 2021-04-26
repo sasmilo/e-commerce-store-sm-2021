@@ -1,5 +1,6 @@
 import { useFormik } from 'formik';
 import Head from 'next/head';
+import Router from 'next/router';
 import * as Yup from 'yup';
 import Layout from '../components/Layout';
 import { deleteAllProductsFromCookieCart } from '../util/cookies.js';
@@ -14,7 +15,7 @@ export default function Checkout(props) {
   }, 0);
 
   function redirect() {
-    window.location.href = 'thankyou';
+    Router.push(`/thankyou`);
     deleteAllProductsFromCookieCart();
     return false;
   }
@@ -179,7 +180,6 @@ export default function Checkout(props) {
 export async function getServerSideProps(context) {
   const cart = context.req.cookies.cart;
   const cartCookieObject = cart ? JSON.parse(cart) : [];
-
 
   const products = await getProductInformation();
 
