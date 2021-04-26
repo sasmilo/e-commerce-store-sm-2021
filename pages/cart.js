@@ -106,7 +106,6 @@ export default function ShoppingCart(props) {
   }, [cart]);
 
   const totalValue = totalSum(cart);
-
   if (cart === [] || cart === null || cart === undefined) {
     return (
       <Layout finalShoppingCart={cart}>
@@ -227,11 +226,25 @@ export async function getServerSideProps(context) {
 
   const products = await getProductInformation();
 
-  const finalShoppingCart = cartCookieObject.map((cookieProduct) => {
+  const fullShoppingCart = cartCookieObject.map((cookieProduct) => {
     return {
       ...products.find((product) => cookieProduct.id === product.id),
       quantity: cookieProduct.quantity,
     };
+  });
+
+  const finalShoppingCart = fullShoppingCart.map((product) => {
+    const {
+      category,
+      description,
+      productStock,
+      productSize,
+      productColor,
+      productTags,
+      ...filteredCart
+    } = product;
+
+    return filteredCart;
   });
 
   return {
