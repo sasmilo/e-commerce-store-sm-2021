@@ -1,4 +1,5 @@
 import { useFormik } from 'formik';
+import Cookies from 'js-cookie';
 import Head from 'next/head';
 import Router from 'next/router';
 import * as Yup from 'yup';
@@ -7,12 +8,9 @@ import { deleteAllProductsFromCookieCart } from '../util/cookies.js';
 import { getProductInformation } from '../util/database.js';
 
 export default function Checkout(props) {
-  const cart = props.finalShoppingCart;
-
-  const totalValue = cart.reduce(function (accumulator, currentValue) {
-    const subtotal = currentValue.productPrice * currentValue.quantity;
-    return accumulator + subtotal;
-  }, 0);
+  const cart = Cookies.get('cart');
+  const cartCookieObject = cart ? JSON.parse(cart) : [];
+  const totalValue = props.totalValue;
 
   function redirect() {
     Router.push(`/thankyou`);
@@ -50,7 +48,7 @@ export default function Checkout(props) {
   });
 
   return (
-    <Layout finalShoppingCart={cart}>
+    <Layout finalShoppingCart={cartCookieObject}>
       <Head>
         <title>Checkout</title>
       </Head>
@@ -190,9 +188,18 @@ export async function getServerSideProps(context) {
     };
   });
 
+  const totalValue = finalShoppingCart.reduce(function (
+    accumulator,
+    currentValue,
+  ) {
+    const subtotal = currentValue.productPrice * currentValue.quantity;
+    return accumulator + subtotal;
+  },
+  0);
+
   return {
     props: {
-      finalShoppingCart: finalShoppingCart,
+      totalValue: totalValue,
     },
   };
 }
